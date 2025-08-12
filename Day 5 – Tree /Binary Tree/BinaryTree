@@ -1,0 +1,146 @@
+package com.Trees;
+import java.util.Scanner;
+
+class BinaryTree {
+
+    private static final class Node {
+    int value;
+    Node left;
+    Node right;
+
+    private Node(int value) {
+      this.value = value;
+    }
+  }
+
+  private Node root;
+
+  // insert elements
+  public void populate(Scanner scanner) {
+    System.out.println("Enter the root Node: ");
+    int value = scanner.nextInt();
+    root = new Node(value);
+    populate(scanner, root);
+  }
+
+
+
+
+  private static void populate(Scanner scanner, Node node) {
+      Node node1 = node;
+      while (true) {
+
+          //for inserting left of node
+          System.out.println("Do you want to enter left of " + node1.value);
+          boolean left = scanner.nextBoolean();
+          if (left) {
+              System.out.println("Enter the value of the left of " + node1.value);
+              int value = scanner.nextInt();
+              node1.left = new Node(value);
+              populate(scanner, node1.left);
+          }
+
+          //for inserting right of node
+
+          System.out.println("Do you want to enter right of " + node1.value);
+          boolean right = scanner.nextBoolean();
+          if (right) {
+              System.out.println("Enter the value of the right of " + node1.value);
+              int value = scanner.nextInt();
+              node1.right = new Node(value);
+              node1 = node1.right;
+              continue;
+          }
+
+          return;
+      }
+  }
+
+  public void display() {
+    display(root, "");
+  }
+
+  private static void display(Node node, String indent) {
+      StringBuilder s = new StringBuilder(indent);
+      Node node1 = node;
+      while (true) {
+          if (node1 == null) {
+              return;
+          }
+          System.out.println(s.toString() + node1.value);
+          display(node1.left, s + "\t");
+          s.append("\t");
+          node1 = node1.right;
+      }
+  }
+
+  public void prettyDisplay() {
+    prettyDisplay(root, 0);
+  }
+
+  private static void prettyDisplay(Node node, int level) {
+      Node node1 = node;
+      int i = level;
+      while (true) {
+          if (node1 == null) {
+              return;
+          }
+
+          prettyDisplay(node1.right, i + 1);
+
+          if (i == 0) {
+              System.out.println(node1.value);
+          } else {
+              for (i = 0; i < i - 1; i++) {
+                  System.out.print("|\t\t");
+              }
+              System.out.println("|------->" + node1.value);
+          }
+          i += 1;
+          node1 = node1.left;
+      }
+  }
+
+  public void preOrder() {
+    preOrder(root);
+  }
+
+  private static void preOrder(Node node) {
+      Node node1 = node;
+      while (true) {
+          if (node1 == null) {
+              return;
+          }
+          System.out.print(node1.value + " ");
+          preOrder(node1.left);
+          node1 = node1.right;
+      }
+  }
+
+  public void inOrder() {
+    preOrder(root);
+  }
+
+  private void inOrder(Node node) {
+    if (node == null) {
+      return;
+    }
+    preOrder(node.left);
+    System.out.print(node.value + " ");
+    preOrder(node.right);
+  }
+
+  public void postOrder() {
+    preOrder(root);
+  }
+
+  private static void postOrder(Node node) {
+    if (node == null) {
+      return;
+    }
+    preOrder(node.left);
+    preOrder(node.right);
+    System.out.print(node.value + " ");
+  }
+
+}
